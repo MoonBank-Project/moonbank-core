@@ -1,0 +1,24 @@
+os: Visual Studio 2017
+
+environment:
+  BOOST_ROOT: C:\Libraries\boost_1_67_0
+  BOOST_LIBRARYDIR: C:\Libraries\boost_1_67_0\lib64-msvc-14
+
+build_script:
+  - md build
+  - cd build
+  - cmake -G "Visual Studio 15 2017 Win64" ..
+  - MSBuild moonbank.sln /p:Configuration=Release /m
+   
+after_build: 
+  - if not defined APPVEYOR_BUILD_NUMBER (set APPVEYOR_BUILD_NUMBER=%APPVEYOR_BUILD_ID%)
+  - cd src\Release
+  - mkdir moonbank-%APPVEYOR_BUILD_NUMBER%
+  - copy *.exe moonbank-%APPVEYOR_BUILD_NUMBER%
+  - copy ..\..\..\LICENSE.md moonbank-%APPVEYOR_BUILD_NUMBER%
+  - 7z a moonbank-%APPVEYOR_BUILD_NUMBER%-windows.zip moonbank-%APPVEYOR_BUILD_NUMBER%
+  - copy moonbank-%APPVEYOR_BUILD_NUMBER%-windows.zip ..\..\..\
+  
+artifacts:
+  - path: moonbank-$(APPVEYOR_BUILD_NUMBER)-windows.zip
+    name: moonbank

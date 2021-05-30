@@ -1,0 +1,54 @@
+// Copyright (c) 2011-2017 The Cryptonote developers
+// Copyright (c) 2017-2018 The Circle Foundation & Conceal Devs
+// Copyright (c) 2018-2019 Conceal Network & Conceal Devs
+// Copyright (c) 2020 - The MoonBank Developers
+//
+// Distributed under the GNU Lesser General Public License v3.0.
+// Please read MoonBank/License.md
+
+#pragma once
+
+#include <chrono>
+#include "NetNodeConfig.h"
+
+namespace CryptoNote {
+
+class P2pNodeConfig : public NetNodeConfig {
+public:
+  P2pNodeConfig();
+
+  // getters
+  std::chrono::nanoseconds getTimedSyncInterval() const;
+  std::chrono::nanoseconds getHandshakeTimeout() const;
+  std::chrono::nanoseconds getConnectInterval() const;
+  std::chrono::nanoseconds getConnectTimeout() const;
+  size_t getExpectedOutgoingConnectionsCount() const;
+  size_t getWhiteListConnectionsPercent() const;
+  boost::uuids::uuid getNetworkId() const;
+  size_t getPeerListConnectRange() const;
+  size_t getPeerListGetTryCount() const;
+
+  // setters
+  void setTimedSyncInterval(std::chrono::nanoseconds interval);
+  void setHandshakeTimeout(std::chrono::nanoseconds timeout);
+  void setConnectInterval(std::chrono::nanoseconds interval);
+  void setConnectTimeout(std::chrono::nanoseconds timeout);
+  void setExpectedOutgoingConnectionsCount(size_t count);
+  void setWhiteListConnectionsPercent(size_t percent);
+  void setNetworkId(const boost::uuids::uuid& id);
+  void setPeerListConnectRange(size_t range);
+  void setPeerListGetTryCount(size_t count);
+
+private:
+  std::chrono::nanoseconds timedSyncInterval;
+  std::chrono::nanoseconds handshakeTimeout;
+  std::chrono::nanoseconds connectInterval;
+  std::chrono::nanoseconds connectTimeout;
+  boost::uuids::uuid networkId;
+  size_t expectedOutgoingConnectionsCount;
+  size_t whiteListConnectionsPercent;
+  size_t peerListConnectRange;
+  size_t peerListGetTryCount;
+};
+
+}
